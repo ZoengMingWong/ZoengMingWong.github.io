@@ -3,7 +3,7 @@
     <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>Harris、Shi-Tomasi角点检测 | ZoengMingWong&#39;s blog</title>
-<link rel="shortcut icon" href="https://zoengmingwong.github.io/favicon.ico?v=1594561555636">
+<link rel="shortcut icon" href="https://zoengmingwong.github.io/favicon.ico?v=1594561884304">
 <link href="https://cdn.jsdelivr.net/npm/remixicon@2.3.0/fonts/remixicon.css" rel="stylesheet">
 <link rel="stylesheet" href="https://zoengmingwong.github.io/styles/main.css">
 <link rel="alternate" type="application/atom+xml" title="Harris、Shi-Tomasi角点检测 | ZoengMingWong&#39;s blog - Atom Feed" href="https://zoengmingwong.github.io/atom.xml">
@@ -21,7 +21,7 @@
       <div class="main-content">
         <div class="site-header">
   <a href="https://zoengmingwong.github.io">
-  <img class="avatar" src="https://zoengmingwong.github.io/images/avatar.png?v=1594561555636" alt="">
+  <img class="avatar" src="https://zoengmingwong.github.io/images/avatar.png?v=1594561884304" alt="">
   </a>
   <h1 class="site-title">
     ZoengMingWong&#39;s blog
@@ -83,6 +83,7 @@
             <div class="post-content-wrapper">
               <div class="post-content">
                 <p>       由于物体上的点是无穷多的，为了准确描述物体在两幅图像中的位置变化，我们通常只讨论那些特别显著的点，该点能够比较容易且准确地在另一幅图像中找到相匹配，也就是代表了物理空间中同一个位置的点，我们称之为特征点（feature points）。图像中的结构简单地可分为三种，即平坦区域（flat）、边缘（edge）和角（corner），如图 1 所示。很明显，我们能够非常容易地找到角的顶点在两幅像中的对应位置，即便图像发生了缩放、平移、旋转等等变换。但对于那些平坦区域以及边缘上的点，我们却很难去进行匹配，因为所有的点都是相似的。因此，特征点的检测可以转换为对图像角点（corner points）的检测，目前也有很多现成的检测算法，例如 FAST、SUSAN、Harris 等等，其判断角点的依据以及检测的速度、准确率等各有不同，这里我们主要讨论 Harris 角点，以及其一个比较简单的变体 Shi-Tomasi 角点。</p>
+<img src="file://C:/Users/huang/Documents/Gridea/post-images/1594533210878.png" width="20%">
 <figure data-type="image" tabindex="1"><img src="https://zoengmingwong.github.io/post-images/1594533210878.png" alt="角点检测示意图" loading="lazy"></figure>
  <center>图1 角点检测示意图</center>
  <br> </br>
