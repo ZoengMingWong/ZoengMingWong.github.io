@@ -1,22 +1,94 @@
-<?xml version="1.0" encoding="utf-8"?>
-<feed xmlns="http://www.w3.org/2005/Atom">
-    <id>https://zoengmingwong.github.io</id>
-    <title>Gridea</title>
-    <updated>2020-07-12T05:57:28.613Z</updated>
-    <generator>https://github.com/jpmonette/feed</generator>
-    <link rel="alternate" href="https://zoengmingwong.github.io"/>
-    <link rel="self" href="https://zoengmingwong.github.io/atom.xml"/>
-    <subtitle>温故而知新</subtitle>
-    <logo>https://zoengmingwong.github.io/images/avatar.png</logo>
-    <icon>https://zoengmingwong.github.io/favicon.ico</icon>
-    <rights>All rights reserved 2020, Gridea</rights>
-    <entry>
-        <title type="html"><![CDATA[Harris、Shi-Tomasi角点检测]]></title>
-        <id>https://zoengmingwong.github.io/post/harrisshi-tomasi-jiao-dian-jian-ce/</id>
-        <link href="https://zoengmingwong.github.io/post/harrisshi-tomasi-jiao-dian-jian-ce/">
-        </link>
-        <updated>2020-07-12T05:42:16.000Z</updated>
-        <content type="html"><![CDATA[<p>       由于物体上的点是无穷多的，为了准确描述物体在两幅图像中的位置变化，我们通常只讨论那些特别显著的点，该点能够比较容易且准确地在另一幅图像中找到相匹配，也就是代表了物理空间中同一个位置的点，我们称之为特征点（feature points）。图像中的结构简单地可分为三种，即平坦区域（flat）、边缘（edge）和角（corner），如图 1 所示。很明显，我们能够非常容易地找到角的顶点在两幅像中的对应位置，即便图像发生了缩放、平移、旋转等等变换。但对于那些平坦区域以及边缘上的点，我们却很难去进行匹配，因为所有的点都是相似的。因此，特征点的检测可以转换为对图像角点（corner points）的检测，目前也有很多现成的检测算法，例如 FAST、SUSAN、Harris 等等，其判断角点的依据以及检测的速度、准确率等各有不同，这里我们主要讨论 Harris 角点，以及其一个比较简单的变体 Shi-Tomasi 角点。</p>
+<html>
+  <head>
+    <meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Harris、Shi-Tomasi角点检测 | Gridea</title>
+<link rel="shortcut icon" href="https://zoengmingwong.github.io/favicon.ico?v=1594533438669">
+<link href="https://cdn.jsdelivr.net/npm/remixicon@2.3.0/fonts/remixicon.css" rel="stylesheet">
+<link rel="stylesheet" href="https://zoengmingwong.github.io/styles/main.css">
+<link rel="alternate" type="application/atom+xml" title="Harris、Shi-Tomasi角点检测 | Gridea - Atom Feed" href="https://zoengmingwong.github.io/atom.xml">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Droid+Serif:400,700">
+
+
+
+    <meta name="description" content="       由于物体上的点是无穷多的，为了准确描述物体在两幅图像中的位置变化，我们通常只讨论那些特别显著的点，该点能够比较容易且准确地在另一幅图像中找到相匹配，也就是代表了物理空间中同一个位置的点，我们称之为特征点（feature poi..." />
+    <meta name="keywords" content="" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css">
+    <script src="https://cdn.bootcss.com/highlight.js/9.12.0/highlight.min.js"></script>
+  </head>
+  <body>
+    <div class="main">
+      <div class="main-content">
+        <div class="site-header">
+  <a href="https://zoengmingwong.github.io">
+  <img class="avatar" src="https://zoengmingwong.github.io/images/avatar.png?v=1594533438669" alt="">
+  </a>
+  <h1 class="site-title">
+    Gridea
+  </h1>
+  <p class="site-description">
+    温故而知新
+  </p>
+  <div class="menu-container">
+    
+      
+        <a href="/" class="menu">
+          首页
+        </a>
+      
+    
+      
+        <a href="/archives" class="menu">
+          归档
+        </a>
+      
+    
+      
+        <a href="/tags" class="menu">
+          标签
+        </a>
+      
+    
+      
+        <a href="/post/about" class="menu">
+          关于
+        </a>
+      
+    
+  </div>
+  <div class="social-container">
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+  </div>
+</div>
+
+        <div class="post-detail">
+          <article class="post">
+            <h2 class="post-title">
+              Harris、Shi-Tomasi角点检测
+            </h2>
+            <div class="post-info">
+              <span>
+                2020-07-12
+              </span>
+              <span>
+                16 min read
+              </span>
+              
+            </div>
+            
+            <div class="post-content-wrapper">
+              <div class="post-content">
+                <p>       由于物体上的点是无穷多的，为了准确描述物体在两幅图像中的位置变化，我们通常只讨论那些特别显著的点，该点能够比较容易且准确地在另一幅图像中找到相匹配，也就是代表了物理空间中同一个位置的点，我们称之为特征点（feature points）。图像中的结构简单地可分为三种，即平坦区域（flat）、边缘（edge）和角（corner），如图 1 所示。很明显，我们能够非常容易地找到角的顶点在两幅像中的对应位置，即便图像发生了缩放、平移、旋转等等变换。但对于那些平坦区域以及边缘上的点，我们却很难去进行匹配，因为所有的点都是相似的。因此，特征点的检测可以转换为对图像角点（corner points）的检测，目前也有很多现成的检测算法，例如 FAST、SUSAN、Harris 等等，其判断角点的依据以及检测的速度、准确率等各有不同，这里我们主要讨论 Harris 角点，以及其一个比较简单的变体 Shi-Tomasi 角点。</p>
  <center>
  <img  src="file://C:/Users/huang/Documents/Gridea/post-images/1594533210878.png" width="65%" height="65%">
  图1 角点检测示意图
@@ -113,6 +185,94 @@ s76,-59,76,-59s76,-60,76,-60z M1001 80H40000v40H1012z'/></svg></span></span></sp
 <li><a href="https://docs.opencv.org/2.4/doc/tutorials/imgproc/imgtrans/sobel_derivatives/sobel_derivatives.html?highlight=sobel">https://docs.opencv.org/2.4/doc/tutorials/imgproc/imgtrans/sobel_derivatives/sobel_derivatives.html?highlight=sobel</a></li>
 <li><a href="https://www.researchgate.net/profile/Irwin_Sobel/publication/239398674_An_Isotropic_3x3_Image_Gradient_Operator/links/557e06f508aeea18b777c389/An-Isotropic-3x3-Image-Gradient-Operator.pdf?origin=publication_detail">https://www.researchgate.net/profile/Irwin_Sobel/publication/239398674_An_Isotropic_3x3_Image_Gradient_Operator/links/557e06f508aeea18b777c389/An-Isotropic-3x3-Image-Gradient-Operator.pdf?origin=publication_detail</a></li>
 </ul>
-]]></content>
-    </entry>
-</feed>
+
+              </div>
+              <div class="toc-container">
+                
+              </div>
+            </div>
+          </article>
+        </div>
+
+        
+
+        
+          
+            <link rel="stylesheet" href="https://unpkg.com/gitalk/dist/gitalk.css">
+<script src="https://unpkg.com/gitalk/dist/gitalk.min.js"></script>
+
+<div id="gitalk-container"></div>
+
+<script>
+
+  var gitalk = new Gitalk({
+    clientID: 'bab70b8636e497fe41b1',
+    clientSecret: 'a514c120315af1296eb1d7bfca001cc46c3f5fe0',
+    repo: 'zoengmingwong.github.io',
+    owner: 'zoengmingwong',
+    admin: ['zoengmingwong'],
+    id: (location.pathname).substring(0, 49),      // Ensure uniqueness and length less than 50
+    distractionFreeMode: false  // Facebook-like distraction free mode
+  })
+
+  gitalk.render('gitalk-container')
+
+</script>
+
+          
+
+          
+        
+
+        <div class="site-footer">
+  Powered by <a href="https://github.com/getgridea/gridea" target="_blank">Gridea</a>
+  <a class="rss" href="https://zoengmingwong.github.io/atom.xml" target="_blank">
+    <i class="ri-rss-line"></i> RSS
+  </a>
+</div>
+
+      </div>
+    </div>
+
+    <script>
+      hljs.initHighlightingOnLoad()
+
+      let mainNavLinks = document.querySelectorAll(".markdownIt-TOC a");
+
+      // This should probably be throttled.
+      // Especially because it triggers during smooth scrolling.
+      // https://lodash.com/docs/4.17.10#throttle
+      // You could do like...
+      // window.addEventListener("scroll", () => {
+      //    _.throttle(doThatStuff, 100);
+      // });
+      // Only not doing it here to keep this Pen dependency-free.
+
+      window.addEventListener("scroll", event => {
+        let fromTop = window.scrollY;
+
+        mainNavLinks.forEach((link, index) => {
+          let section = document.getElementById(decodeURI(link.hash).substring(1));
+          let nextSection = null
+          if (mainNavLinks[index + 1]) {
+            nextSection = document.getElementById(decodeURI(mainNavLinks[index + 1].hash).substring(1));
+          }
+          if (section.offsetTop <= fromTop) {
+            if (nextSection) {
+              if (nextSection.offsetTop > fromTop) {
+                link.classList.add("current");
+              } else {
+                link.classList.remove("current");    
+              }
+            } else {
+              link.classList.add("current");
+            }
+          } else {
+            link.classList.remove("current");
+          }
+        });
+      });
+
+    </script>
+  </body>
+</html>
