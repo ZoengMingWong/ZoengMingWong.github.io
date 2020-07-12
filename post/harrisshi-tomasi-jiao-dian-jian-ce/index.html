@@ -3,7 +3,7 @@
     <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>Harris、Shi-Tomasi角点检测 | Gridea</title>
-<link rel="shortcut icon" href="https://zoengmingwong.github.io/favicon.ico?v=1594534769263">
+<link rel="shortcut icon" href="https://zoengmingwong.github.io/favicon.ico?v=1594534896503">
 <link href="https://cdn.jsdelivr.net/npm/remixicon@2.3.0/fonts/remixicon.css" rel="stylesheet">
 <link rel="stylesheet" href="https://zoengmingwong.github.io/styles/main.css">
 <link rel="alternate" type="application/atom+xml" title="Harris、Shi-Tomasi角点检测 | Gridea - Atom Feed" href="https://zoengmingwong.github.io/atom.xml">
@@ -21,7 +21,7 @@
       <div class="main-content">
         <div class="site-header">
   <a href="https://zoengmingwong.github.io">
-  <img class="avatar" src="https://zoengmingwong.github.io/images/avatar.png?v=1594534769263" alt="">
+  <img class="avatar" src="https://zoengmingwong.github.io/images/avatar.png?v=1594534896503" alt="">
   </a>
   <h1 class="site-title">
     Gridea
@@ -89,8 +89,10 @@
             <div class="post-content-wrapper">
               <div class="post-content">
                 <p>       由于物体上的点是无穷多的，为了准确描述物体在两幅图像中的位置变化，我们通常只讨论那些特别显著的点，该点能够比较容易且准确地在另一幅图像中找到相匹配，也就是代表了物理空间中同一个位置的点，我们称之为特征点（feature points）。图像中的结构简单地可分为三种，即平坦区域（flat）、边缘（edge）和角（corner），如图 1 所示。很明显，我们能够非常容易地找到角的顶点在两幅像中的对应位置，即便图像发生了缩放、平移、旋转等等变换。但对于那些平坦区域以及边缘上的点，我们却很难去进行匹配，因为所有的点都是相似的。因此，特征点的检测可以转换为对图像角点（corner points）的检测，目前也有很多现成的检测算法，例如 FAST、SUSAN、Harris 等等，其判断角点的依据以及检测的速度、准确率等各有不同，这里我们主要讨论 Harris 角点，以及其一个比较简单的变体 Shi-Tomasi 角点。</p>
-<p><img src="https://zoengmingwong.github.io/post-images/1594534192241.png#width-full" alt="图1" loading="lazy">{:height=&quot;50%&quot; width=&quot;50%&quot;}</p>
- <center>图1 角点检测示意图</center>
+ <center>
+ <img  src="https://img-blog.csdnimg.cn/20200711153229784.png#pic_center" width="65%" height="65%">
+ 图1 角点检测示意图
+ </center>
  <br> </br>
 <p>       Harris 角点主要基于一个较小窗口移动时所产生的灰度变化来描述。如图 1 所示，当窗口处于平坦区域时，无论其往哪个方向移动，灰度都基本不会产生变化；当其处于边缘区域时，沿着平行于边缘的方向移动，灰度同样不会产生太大变化，而当其沿着垂直于边缘方向移动时，灰度则会产生较大的变化；当窗口处于角区域时，无论其往哪个方向移动，灰度都会产生比较大的变化。因此，利用这种特点，我们就可以判断哪些点是我们所需要的角点。通常我们假设图像的灰度值是一个关于像素坐标 <span class="katex"><span class="katex-mathml"><math><semantics><mrow><mo>(</mo><mi>x</mi><mo separator="true">,</mo><mi>y</mi><mo>)</mo></mrow><annotation encoding="application/x-tex">(x, y)</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mopen">(</span><span class="mord mathdefault">x</span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="mord mathdefault" style="margin-right:0.03588em;">y</span><span class="mclose">)</span></span></span></span> 的函数 <span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>I</mi><mo>(</mo><mi>x</mi><mo separator="true">,</mo><mi>y</mi><mo>)</mo></mrow><annotation encoding="application/x-tex">I(x, y)</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathdefault" style="margin-right:0.07847em;">I</span><span class="mopen">(</span><span class="mord mathdefault">x</span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="mord mathdefault" style="margin-right:0.03588em;">y</span><span class="mclose">)</span></span></span></span>，那么定义窗口产生了微小位移 <span class="katex"><span class="katex-mathml"><math><semantics><mrow><mo>(</mo><mi>u</mi><mo separator="true">,</mo><mi>v</mi><mo>)</mo></mrow><annotation encoding="application/x-tex">(u, v)</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mopen">(</span><span class="mord mathdefault">u</span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="mord mathdefault" style="margin-right:0.03588em;">v</span><span class="mclose">)</span></span></span></span> 时所造成的灰度变化为</p>
 <p class='katex-block'><span class="katex-display"><span class="katex"><span class="katex-mathml"><math><semantics><mtable side="right"><mlabeledtr><mtd><mtext>(1)</mtext></mtd><mtd><mrow><mi>E</mi><mrow><mo fence="true">(</mo><mrow><mi>u</mi><mo separator="true">,</mo><mi>v</mi></mrow><mo fence="true">)</mo></mrow><mo>=</mo><munder><mo>∑</mo><mrow><mi>x</mi><mo separator="true">,</mo><mi>y</mi></mrow></munder><mrow><mi>w</mi><mrow><mo fence="true">(</mo><mrow><mi>x</mi><mo separator="true">,</mo><mi>y</mi></mrow><mo fence="true">)</mo></mrow><msup><mrow><mo fence="true">[</mo><mrow><mi>I</mi><mrow><mo fence="true">(</mo><mrow><mi>x</mi><mo>+</mo><mi>u</mi><mo separator="true">,</mo><mi>y</mi><mo>+</mo><mi>v</mi></mrow><mo fence="true">)</mo></mrow><mo>−</mo><mi>I</mi><mrow><mo fence="true">(</mo><mrow><mi>x</mi><mo separator="true">,</mo><mi>y</mi></mrow><mo fence="true">)</mo></mrow></mrow><mo fence="true">]</mo></mrow><mn>2</mn></msup></mrow><mi mathvariant="normal">.</mi></mrow></mtd></mlabeledtr></mtable><annotation encoding="application/x-tex">E\left( {u,v} \right) = \sum\limits_{x,y} {w\left( {x,y} \right){{\left[ {I\left( {x + u,y + v} \right) - I\left( {x,y} \right)} \right]}^2}} .\tag{1}
